@@ -35,7 +35,7 @@ customer_ltv as
     on payments.orderid   = orders.order_id
     where payments.status = 'success'
 )
-
+,
 final as (
 
     select
