@@ -25,6 +25,17 @@ customer_orders as (
 
 ),
 
+customer_ltv as
+(
+    select 
+      orders.user_id               AS customer_id,
+      sum(payments.amount / 100.0) AS lifetime_value
+    from {{ref('stg_payments')}}   AS payments
+    inner join orders
+    on payments.orderid   = orders.id
+    where payments.status = 'success'
+)
+
 final as (
 
     select
@@ -33,11 +44,12 @@ final as (
         customers.last_name,
         customer_orders.first_order_date,
         customer_orders.most_recent_order_date,
-        coalesce(customer_orders.number_of_orders, 0) as number_of_orders
-
+        coalesce(customer_orders.number_of_orders, 0) as number_of_orders,
+        coalesce(customer_ltv.lifetime_value, 0)      as lifetime_value
     from customers
 
     left join customer_orders using (customer_id)
+    left join customer_ltv using (customer_id)
 
 )
 
