@@ -28,11 +28,11 @@ customer_orders as (
 customer_ltv as
 (
     select 
-      orders.user_id               AS customer_id,
+      orders.customer_id,
       sum(payments.amount / 100.0) AS lifetime_value
-    from {{ref('stg_payments')}}   AS payments
+    from {{ref('stg_payments')}} AS payments
     inner join orders
-    on payments.orderid   = orders.id
+    on payments.orderid   = orders.order_id
     where payments.status = 'success'
 )
 
