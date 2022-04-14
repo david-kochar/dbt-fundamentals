@@ -34,6 +34,7 @@ customer_ltv as
     inner join orders
     on payments.orderid   = orders.order_id
     where payments.status = 'success'
+    group by 1
 )
 ,
 final as (
