@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: jaffle_shop
+    database: training_db_dave_k
+    schema: jaffle_shop
+    tables:
+      - name: customers
+      - name: orders
